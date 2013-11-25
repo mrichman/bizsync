@@ -3,6 +3,8 @@ $watcher.Path = "C:\Orders\"
 $watcher.IncludeSubdirectories = $false
 $watcher.EnableRaisingEvents = $true
 
+write-host "Watching for new orders in $($watcher.Path). Saving backups to C:\Orders-Backup"
+
 $changed = Register-ObjectEvent $watcher "Changed" -Action {
    write-host "Changed: $($eventArgs.FullPath)"
    $datestamp = get-date -uformat "%Y%m%d%H%M%S" 
@@ -24,3 +26,6 @@ $deleted = Register-ObjectEvent $watcher "Deleted" -Action {
 $renamed = Register-ObjectEvent $watcher "Renamed" -Action {
    write-host "Renamed: $($eventArgs.FullPath)"
 }
+
+Read-Host "Press any key to exit..."
+exit
